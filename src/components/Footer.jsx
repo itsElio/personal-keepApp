@@ -1,12 +1,11 @@
 import React from "react";
 
-const date = new Date();
-let year = date.getFullYear();
+let currentYear = new Date().getFullYear();
 
 function Footer() {
     return(
     <footer>
-        <p>Copyright Helios Web {year}</p>
+        <p>Copyright Helios Web {currentYear}</p>
     </footer>)
 }
 
