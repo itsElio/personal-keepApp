@@ -1,33 +1,53 @@
-import React from "react";
+/* eslint-disable no-unused-expressions */
+import React, { useState } from "react";
 import Footer from "./Footer";
 import Header from "./Header";
 import Note from "./Note";
-import notes from "../notes";
+import CreateArea from "./CreateArea";
 
-//la funzione createNote crea una nuova "Note" per ogni elemento dell'array di oggetti.
-// passando come valori la key, title e content dell'elemento che gli viene passato
 
-function createNote(noteItem) {
-    return(
-        <Note 
-            key = {noteItem.key}
-            title = {noteItem.title}
-            content = {noteItem.content}
-        />
-    )
-}
 
 //Esegue il render dei singoli componenti Header, Footer, ed itera la funzione createNote 
 // per ogni elemento all'interno di "notes", importato da notes.js
 
-function App(props) {
+function App(props) { 
+
+    const [notes, setNotes] = useState([]);
+
+    function addNote(newNote) {
+        console.log(newNote);
+        setNotes(prevNotes => {
+            // con ...prevNotes reinserisce tutti gli oggetti dell'array e ne aggiunge un altro (newNote) passato alla funzione
+            return [...prevNotes, newNote];
+       });
+    }
+
+    function deleteNote(id) {
+        setNotes(prevNotes =>{
+            return prevNotes.filter((noteItem, index) => {
+                return index !== id;
+            });
+        })
+    }
+
    return(
     <div>
         <Header />
-        {notes.map(createNote)}
+        <CreateArea onAdd={addNote} />
+        {notes.map((noteItem, index) =>{
+            return (
+        <Note 
+            key={index}
+            id={index}
+            title={noteItem.title}
+            content={noteItem.content}
+            onDelete={deleteNote}
+        />
+    );
+    })}
         <Footer />
     </div>
-   )
+   );
 }
 
 export default App;
