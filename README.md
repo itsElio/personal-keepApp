@@ -2,9 +2,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Personal Google Keep App
 
-This small project was made to practice my React skills. Includes very basic styling and absolutely no backend.
-
-Notes won't be stored in any way and will disappear every time you restart the app.
+This small project was made to practice my React skills. Includes VERY BASIC styling.
 
 To try it out you can run: 
 
@@ -13,7 +11,17 @@ To try it out you can run:
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-## This version will need a backend server to make it work. Will be uploaded in a while
+## Backend uploaded.
+Use this command to start server.
+### node index.js
+
+You will need to add your own personal MongoDB connection URL.
 
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
+
+## Final thoughts
+
+-This code could totally use some refactoring;
+-Displaying notes from the final <App /> component could've been done with less instructions;
+-For next project will need to have better understanding of the whole architecture I'm going to create, before jumping in and coding;
