@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import AddIcon from "@material-ui/icons/Add";
 import Fab from "@material-ui/core/Fab";
 import Zoom from "@material-ui/core/Zoom";
+import axios from "axios";
+var uniqid = require('uniqid');
+
 
 function CreateArea(props) {
 
@@ -9,7 +12,8 @@ function CreateArea(props) {
 
   const [note, setNote] = useState({
     title: "",
-    content: ""
+    content: "",
+    id: ""
   });
 
   function expand() {
@@ -18,10 +22,21 @@ function CreateArea(props) {
 
   function submitNote(event) {
     props.onAdd(note);
+    console.log(note);
+    // Invia una richiesta POST -> Aggiungere error control e index/id
+    axios({
+      method: "POST",
+      url: "/save",
+      data: note
+    });    
+
     event.preventDefault();
+    // "Svuota" note tramite setNote
     setNote({
       title: "",
-    content: ""}
+      content: "",
+      id: ""  
+    }
     );
   }
 
@@ -34,7 +49,8 @@ function CreateArea(props) {
         // ...prevNote permette di non modificare i valori precedenti,"reinserendoli"
         ...prevNote,
         // prendiamo [name] come parte dell'oggetto da aggiornare (title o content) e lo setta uguale a value
-        [name] : value
+        [name] : value,
+        id: uniqid() // crea un id unique, per permettere la cancellazione, prima che venga rieseguito il render sul client
       }
     });
   } 
@@ -43,8 +59,20 @@ function CreateArea(props) {
   return (
     <div>
       <form className="create-note">
-        {isExpanded ? <input onChange={handleChange} name="title" value={note.title} placeholder="Title" /> : null }
-        <textarea onClick={expand} onChange={handleChange} name="content" value={note.content} placeholder="Take a note..." rows={isExpanded ? 3 : 1} />
+        {isExpanded ? <input 
+        onChange={handleChange} 
+        name="title" 
+        value={note.title}
+        placeholder="Title" /> : null }
+
+        <textarea 
+        onClick={expand} 
+        onChange={handleChange} 
+        name="content" 
+        value={note.content} 
+        placeholder="Take a note..." 
+        rows={isExpanded ? 3 : 1} />
+
         <Zoom in={isExpanded}><Fab onClick={submitNote}><AddIcon /></Fab></Zoom> 
       </form>
     </div>
